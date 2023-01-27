@@ -268,7 +268,28 @@ export class resizer extends Plugin {
 					this.height + (className.match(/top/) ? -1 : 1) * diff_y;
 			}
 
-			if (new_w > this.j.o.resizer.min_width) {
+			let max_height;
+			let max_width;
+
+			if(typeof this.j.o.resizer.max_height === 'number'){
+				max_height = this.j.o.resizer.max_height;
+			}
+
+			if(typeof this.j.o.resizer.max_width === 'number'){
+				max_width = this.j.o.resizer.max_width;
+			}
+
+			if(this.j.o.resizer.useNaturalSizeAsMaxSize && Dom.isTag(this.element, 'img')){
+				max_height = this.element.naturalHeight;
+				max_width = this.element.naturalWidth;
+			}
+
+			if(new_w > this.j.o.resizer.min_width &&
+				(max_width ?
+					new_w < max_width :
+					true
+				)
+			){
 				if (new_w < (this.rect.parentNode as HTMLElement).offsetWidth) {
 					this.applySize(this.element, 'width', new_w);
 				} else {
@@ -276,7 +297,12 @@ export class resizer extends Plugin {
 				}
 			}
 
-			if (new_h > this.j.o.resizer.min_height) {
+			if (new_h > this.j.o.resizer.min_height &&
+				(max_height ?
+					new_h < max_height :
+					true
+				)
+			) {
 				this.applySize(this.element, 'height', new_h);
 			}
 

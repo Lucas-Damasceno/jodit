@@ -41,6 +41,11 @@ declare module 'jodit/config' {
 			useAspectRatio: boolean | HTMLTagNames[];
 
 			/**
+			 * Set maximum size to image natural size
+			 */
+			useNaturalSizeAsMaxSize: boolean;
+
+			/**
 			 * When resizing images, change not the styles but the width and height attributes
 			 */
 			forImageChangeAttributes: boolean;
@@ -54,6 +59,17 @@ declare module 'jodit/config' {
 			 * The minimum height for the item being edited
 			 */
 			min_height: number;
+
+			/**
+			 * The maximum width for the editable element
+			 */
+			max_width: number | undefined;
+
+			/**
+			 * The maximum height for the item being edited
+			 */
+			max_height: number | undefined;
+
 		};
 	}
 }
@@ -66,5 +82,8 @@ Config.prototype.resizer = {
 	forImageChangeAttributes: true,
 	min_width: 10,
 	min_height: 10,
-	useAspectRatio: ['img']
+	max_height: undefined,
+	max_width: undefined,
+	useAspectRatio: ['img'],
+	useNaturalSizeAsMaxSize: false,
 };
